@@ -1,5 +1,7 @@
 package price.finder.model;
 
+import price.finder.service.DiscountService;
+
 import java.util.Random;
 
 import static price.finder.Util.delay;
@@ -17,7 +19,7 @@ public class ShopWithDiscount {
 
     public String getPrice(String product) {
         double price = calculatePrice(product);
-        Discount.Code code = Discount.Code.values()[random.nextInt(Discount.Code.values().length)];
+        DiscountService.Code code = DiscountService.Code.values()[random.nextInt(DiscountService.Code.values().length)];
         return name + ":" + price + ":" + code;
     }
 

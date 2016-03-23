@@ -1,9 +1,8 @@
 package price.finder.service;
 
 
-import price.finder.model.Discount;
-import price.finder.model.Quote;
 import price.finder.model.Shop;
+import price.finder.service.ExchangeService.Money;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +10,6 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import price.finder.service.ExchangeService.Money;
 
 public class BestPriceFinder {
 
@@ -23,21 +20,6 @@ public class BestPriceFinder {
                                                 new Shop("ShopEasy"));
 
     private final Executor executor = Executors.newFixedThreadPool(shops.size());
-
-
-    public List<String> findPricesUsingOneFuture(String product) {
-        List<CompletableFuture<String>> priceFutures =
-                shops.stream()
-                        .map(shop -> CompletableFuture.supplyAsync(() -> shop.getName() + " price is "
-                                + shop.getPrice(product), executor))
-                        .collect(Collectors.toList());
-
-        List<String> prices = priceFutures.stream()
-                .map(CompletableFuture::join)
-                .collect(Collectors.toList());
-        return prices;
-    }
-
 
     public List<String> findPricesInUsdUsingJava7(String product) {
         ExecutorService executor = Executors.newCachedThreadPool();
